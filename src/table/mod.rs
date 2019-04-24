@@ -23,7 +23,7 @@ impl Deck {
 impl fmt::Display for Deck {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for card in &self.cards {
-            writeln!(f, "{}", card);
+            writeln!(f, "{}", card)?;
         }
         writeln!(f, "")
     }
