@@ -1,9 +1,8 @@
 extern crate porkerlib;
 
-use porkerlib::Card;
-use porkerlib::Suit;
+use porkerlib::table::Deck;
 fn main() {
     println!("Hello, world!");
-    let card = Card::new(Suit::Club, 2).unwrap();
-    println!("{:?}", card);
+    let deck = Deck::new();
+    println!("{}", deck);
 }
