@@ -1,6 +1,5 @@
 mod card;
 use card::Card;
-use card::suit::Suit;
 use std::fmt;
 
 pub struct Table {
