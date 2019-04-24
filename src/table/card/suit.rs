@@ -4,7 +4,7 @@ pub enum Suit {
     Spade,
     Diamond,
     Club,
-    Heart
+    Heart,
 }
 
 impl fmt::Display for Suit {

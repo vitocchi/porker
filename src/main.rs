@@ -2,6 +2,8 @@ extern crate porkerlib;
 
 use porkerlib::table;
 fn main() {
-    let table = table::Table::new();
+    let mut table = table::Table::new();
+    println!("{}", table);
+    table.deck.shuffle();
     println!("{}", table);
 }
