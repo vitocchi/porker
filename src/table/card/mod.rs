@@ -6,6 +6,17 @@ use suit::Suit;
 pub const MIN_NUMBER: u8 = 1;
 pub const MAX_NUMBER: u8 = 13;
 
+pub fn generate_set() -> Vec<Card> {
+        let mut set = Vec::<Card>::new();
+        for number in MIN_NUMBER..MAX_NUMBER + 1 {
+            set.push(Card::new(Suit::Spade, number).unwrap());
+            set.push(Card::new(Suit::Diamond, number).unwrap());
+            set.push(Card::new(Suit::Club, number).unwrap());
+            set.push(Card::new(Suit::Heart, number).unwrap());
+        }
+        set
+}
+
 pub struct Card {
     suit: Suit, // マーク
     number: u8, //数字

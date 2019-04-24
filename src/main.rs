@@ -1,8 +1,7 @@
 extern crate porkerlib;
 
-use porkerlib::table::Deck;
+use porkerlib::table;
 fn main() {
-    println!("Hello, world!");
-    let deck = Deck::new();
-    println!("{}", deck);
+    let table = table::Table::new();
+    println!("{}", table);
 }
