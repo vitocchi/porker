@@ -1,18 +1,31 @@
 mod cardset;
 use cardset::CardSet;
 use std::fmt;
+use std::collections::HashMap;
 
 const HAND_NUMBER: u8 = 5;
 
-pub struct Hand(CardSet);
-
+#[derive(PartialEq)]
 pub enum Value {
+    FourOfAKind,
+    ThreeOfAKind,
+    FullHouse,
+    TwoPair,
+    OnePair,
     HighCard,
 }
 
 impl fmt::Display for Value {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        writeln!(f, "highcard")
+        let s = match self {
+            Value::FourOfAKind => "four of kind",
+            Value::ThreeOfAKind => "thee of kind",
+            Value::FullHouse => "full house",
+            Value::TwoPair => "two pair",
+            Value::OnePair => "one pair",
+            Value::HighCard => "high card"
+        };
+        writeln!(f, "{}", s)
     }
 }
 
@@ -64,6 +77,38 @@ impl Table {
         if self.hand.get_number() != HAND_NUMBER {
             return Err("number of hand is not 5!".to_string());
         }
-        Ok(Value::HighCard)
+        let mut groups = HashMap::new();
+        let CardSet(vec) =  self.hand;
+        for card in vec {
+            let count = groups.entry(card.number).or_insert(0);
+            *count += 1;
+        }
+        match groups.len() {
+            2 => {
+                for (_, count) in groups.iter() {
+                    if *count == 4 {
+                        return Ok(Value::FourOfAKind)
+                    }
+                }
+                return Ok(Value::FullHouse);
+            },
+            3 => {
+                for (_, count) in groups.iter() {
+                    if *count == 3 {
+                        return Ok(Value::ThreeOfAKind)
+                    }
+                }
+                return Ok(Value::TwoPair);
+            },
+            4 => {
+                return Ok(Value::OnePair);
+            },
+            5 => {
+                return Ok(Value::HighCard);
+            },
+            _ => {
+                return Err("error".to_string());
+            }
+        }
     }
 }

@@ -7,8 +7,8 @@ pub const MAX_NUMBER: u8 = 13;
 
 #[derive(PartialEq)]
 pub struct Card {
-    suit: Suit, // マーク
-    number: u8, //数字
+    pub suit: Suit, // マーク
+    pub number: u8, //数字
 }
 
 impl fmt::Display for Card {

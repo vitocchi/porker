@@ -1,4 +1,4 @@
-mod card;
+pub mod card;
 mod suit;
 use card::Card;
 use rand::seq::SliceRandom;
@@ -6,7 +6,7 @@ use rand::thread_rng;
 use std::fmt;
 use suit::Suit;
 
-pub struct CardSet(Vec<Card>);
+pub struct CardSet(pub Vec<Card>);
 
 impl fmt::Display for CardSet {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -50,7 +50,7 @@ impl CardSet {
         vec.push(card)
     }
 
-    pub fn get_number(self) -> u8 {
+    pub fn get_number(&self) -> u8 {
         let CardSet(vec) = self;
         vec.len() as u8
     }
