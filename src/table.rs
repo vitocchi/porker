@@ -1,5 +1,5 @@
-mod card;
-use card::CardSet;
+mod cardset;
+use cardset::CardSet;
 use std::fmt;
 
 const HAND_NUMBER: u8 = 5;

@@ -1,12 +1,10 @@
 mod suit;
+mod card;
 use std::fmt;
 use suit::Suit;
+use card::Card;
 use rand::thread_rng;
 use rand::seq::SliceRandom;
-
-// トランプのカード
-const MIN_NUMBER: u8 = 1;
-const MAX_NUMBER: u8 = 13;
 
 pub struct CardSet (Vec<Card>);
 
@@ -22,7 +20,7 @@ impl fmt::Display for CardSet {
 impl CardSet {
     pub fn new_full () -> CardSet {
         let mut vec = Vec::<Card>::new();
-        for number in MIN_NUMBER..MAX_NUMBER + 1 {
+        for number in card::MIN_NUMBER..card::MAX_NUMBER + 1 {
             vec.push(Card::new(Suit::Spade, number).unwrap());
             vec.push(Card::new(Suit::Diamond, number).unwrap());
             vec.push(Card::new(Suit::Club, number).unwrap());
@@ -52,29 +50,5 @@ impl CardSet {
     pub fn get_number(self) -> u8 {
         let CardSet(vec) = self;
         vec.len() as u8
-    }
-}
-
-pub struct Card {
-    suit: Suit, // マーク
-    number: u8, //数字
-}
-
-impl fmt::Display for Card {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{0} : {1: >2}", self.suit, self.number)
-    }
-}
-impl Card {
-    pub fn new(suit: Suit, number: u8) -> Result<Card, String> {
-        Card::check_number(number)?;
-        Ok(Card { suit, number })
-    }
-
-    fn check_number(number: u8) -> Result<(), String> {
-        if number > MAX_NUMBER || number < MIN_NUMBER {
-            return Err(number.to_string() + " is to large as number of card!!");
-        }
-        return Ok(());
     }
 }

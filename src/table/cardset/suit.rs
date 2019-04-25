@@ -23,3 +23,15 @@ impl Suit {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn get_symbol() {
+        assert_eq!(Suit::Spade.get_symbol(), String::from("♤"));
+        assert_eq!(Suit::Diamond.get_symbol(), String::from("♢"));
+        assert_eq!(Suit::Club.get_symbol(), String::from("♧"));
+        assert_eq!(Suit::Heart.get_symbol(), String::from("♡"));
+    }
+}
