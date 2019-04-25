@@ -2,6 +2,20 @@ mod card;
 use card::CardSet;
 use std::fmt;
 
+const HAND_NUMBER: u8 = 5;
+
+pub struct Hand (CardSet);
+
+pub enum Value {
+    HighCard
+}
+
+impl fmt::Display for Value {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        writeln!(f, "highcard")
+    }
+}
+
 pub struct Table {
     deck: CardSet,
     hand: CardSet
@@ -26,6 +40,13 @@ impl Table {
         self.deck.shuffle();
     }
 
+    pub fn init_hand(&mut self) -> Result<(), String>{
+        for _ in 0..HAND_NUMBER {
+            self.pick_from_deck()?
+        }
+        Ok(())
+    }
+
     pub fn pick_from_deck(&mut self) -> Result<(), String> {
         match self.deck.pick_card() {
             Some(card) => {
@@ -36,5 +57,12 @@ impl Table {
                 Err("deck is out".to_string())
             }
         }
+    }
+
+    pub fn get_variant(self) -> Result<Value, String> {
+        if self.hand.get_number() != HAND_NUMBER {
+            return Err("number of hand is not 5!".to_string())
+        }
+        Ok(Value::HighCard)
     }
 }

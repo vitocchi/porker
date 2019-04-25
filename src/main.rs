@@ -9,12 +9,9 @@ fn main() {
     table.shuffle_deck();
 
     // カードを5枚引く
-    table.pick_from_deck().unwrap();
-    table.pick_from_deck().unwrap();
-    table.pick_from_deck().unwrap();
-    table.pick_from_deck().unwrap();
-    table.pick_from_deck().unwrap();
+    table.init_hand().unwrap();
 
     // 出力
     println!("{}", table);
+    println!("{}", table.get_variant().unwrap());
 }

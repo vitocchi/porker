@@ -48,6 +48,11 @@ impl CardSet {
         let CardSet(vec) = self;
         vec.push(card)
     }
+
+    pub fn get_number(self) -> u8 {
+        let CardSet(vec) = self;
+        vec.len() as u8
+    }
 }
 
 pub struct Card {
