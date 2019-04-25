@@ -1,10 +1,10 @@
 mod card;
 use card::Card;
-use rand::{thread_rng, Rng};
+use card::CardSet;
 use std::fmt;
 
 pub struct Table {
-    pub deck: Deck,
+    pub deck: CardSet,
 }
 
 impl fmt::Display for Table {
@@ -16,31 +16,6 @@ impl fmt::Display for Table {
 
 impl Table {
     pub fn new() -> Table {
-        Table { deck: Deck::new() }
-    }
-}
-
-pub struct Deck {
-    cards: Vec<Card>,
-}
-
-impl Deck {
-    fn new() -> Deck {
-        Deck {
-            cards: card::generate_set(),
-        }
-    }
-
-    pub fn shuffle(&mut self) {
-        rand::thread_rng().shuffle(&mut self.cards);
-    }
-}
-
-impl fmt::Display for Deck {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        for card in &self.cards {
-            writeln!(f, "{}", card)?;
-        }
-        writeln!(f, "")
+        Table { deck: CardSet::new() }
     }
 }

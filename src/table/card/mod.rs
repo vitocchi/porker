@@ -1,20 +1,39 @@
 pub mod suit;
 use std::fmt;
 use suit::Suit;
+use rand::{thread_rng, Rng};
 
 // トランプのカード
 pub const MIN_NUMBER: u8 = 1;
 pub const MAX_NUMBER: u8 = 13;
 
-pub fn generate_set() -> Vec<Card> {
-    let mut set = Vec::<Card>::new();
-    for number in MIN_NUMBER..MAX_NUMBER + 1 {
-        set.push(Card::new(Suit::Spade, number).unwrap());
-        set.push(Card::new(Suit::Diamond, number).unwrap());
-        set.push(Card::new(Suit::Club, number).unwrap());
-        set.push(Card::new(Suit::Heart, number).unwrap());
+pub struct CardSet (Vec<Card>);
+
+impl fmt::Display for CardSet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        for card in { let CardSet(vec) = self; vec }  {
+            writeln!(f, "{}", card)?;
+        }
+        writeln!(f, "")
     }
-    set
+}
+
+impl CardSet {
+    pub fn new() -> CardSet {
+        let mut vec = Vec::<Card>::new();
+        for number in MIN_NUMBER..MAX_NUMBER + 1 {
+            vec.push(Card::new(Suit::Spade, number).unwrap());
+            vec.push(Card::new(Suit::Diamond, number).unwrap());
+            vec.push(Card::new(Suit::Club, number).unwrap());
+            vec.push(Card::new(Suit::Heart, number).unwrap());
+        }
+        CardSet(vec)
+    }
+
+    pub fn shuffle(&mut self) {
+        let CardSet(vec) = self;
+        rand::thread_rng().shuffle(vec);
+    }
 }
 
 pub struct Card {
