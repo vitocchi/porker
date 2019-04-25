@@ -7,6 +7,9 @@ const HAND_NUMBER: u8 = 5;
 
 #[derive(PartialEq)]
 pub enum Value {
+    StraightFlush,
+    Straight,
+    Flush,
     FourOfAKind,
     ThreeOfAKind,
     FullHouse,
@@ -18,6 +21,9 @@ pub enum Value {
 impl fmt::Display for Value {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let s = match self {
+            Value::StraightFlush => "!! straight flush !!",
+            Value::Straight => "! straight !",
+            Value::Flush => "! flush !",
             Value::FourOfAKind => "four of kind",
             Value::ThreeOfAKind => "thee of kind",
             Value::FullHouse => "full house",
@@ -31,7 +37,7 @@ impl fmt::Display for Value {
 
 pub struct Table {
     deck: CardSet,
-    hand: CardSet,
+    pub hand: CardSet,
 }
 
 impl fmt::Display for Table {
@@ -73,12 +79,12 @@ impl Table {
         }
     }
 
-    pub fn get_variant(self) -> Result<Value, String> {
+    pub fn get_variant(&self) -> Result<Value, String> {
         if self.hand.get_number() != HAND_NUMBER {
             return Err("number of hand is not 5!".to_string());
         }
         let mut groups = HashMap::new();
-        let CardSet(vec) =  self.hand;
+        let CardSet(vec) =  &self.hand;
         for card in vec {
             let count = groups.entry(card.number).or_insert(0);
             *count += 1;
@@ -104,7 +110,32 @@ impl Table {
                 return Ok(Value::OnePair);
             },
             5 => {
-                return Ok(Value::HighCard);
+                let mut min = 1;
+                let mut max = 13;
+                let suit = &vec[0].suit;
+                let mut is_flush = true;
+                let mut is_straigt = true;
+                for card in vec {
+                    if min > card.number {
+                        min = card.number;
+                    }
+                    if max < card.number {
+                        max = card.number;
+                    }
+                    if *suit != card.suit {
+                        is_flush = false;
+                    }
+                }
+                if max - min != 4 {
+                    is_straigt = false;
+                } 
+
+                match (is_straigt, is_flush) {
+                    (true, true) => return Ok(Value::StraightFlush),
+                    (true, false) => return Ok(Value::Straight),
+                    (false, true) => return Ok(Value::Flush),
+                    (false, false) => return Ok(Value::HighCard)
+                };
             },
             _ => {
                 return Err("error".to_string());

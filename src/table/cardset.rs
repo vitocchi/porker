@@ -16,7 +16,7 @@ impl fmt::Display for CardSet {
         } {
             writeln!(f, "{}", card)?;
         }
-        writeln!(f, "")
+        write!(f, "")
     }
 }
 

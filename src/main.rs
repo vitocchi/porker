@@ -12,6 +12,6 @@ fn main() {
     table.init_hand().unwrap();
 
     // 出力
-    println!("{}", table);
+    print!("{}", table.hand);
     println!("{}", table.get_variant().unwrap());
 }
