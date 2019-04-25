@@ -1,5 +1,6 @@
 use std::fmt;
 
+#[derive(PartialEq)]
 pub enum Suit {
     Spade,
     Diamond,
@@ -33,5 +34,11 @@ mod tests {
         assert_eq!(Suit::Diamond.get_symbol(), String::from("♢"));
         assert_eq!(Suit::Club.get_symbol(), String::from("♧"));
         assert_eq!(Suit::Heart.get_symbol(), String::from("♡"));
+    }
+
+    #[test]
+    fn partial_eq() {
+        assert!(Suit::Spade == Suit::Spade);
+        assert!(Suit::Spade != Suit::Heart);
     }
 }

@@ -4,10 +4,10 @@ use std::fmt;
 
 const HAND_NUMBER: u8 = 5;
 
-pub struct Hand (CardSet);
+pub struct Hand(CardSet);
 
 pub enum Value {
-    HighCard
+    HighCard,
 }
 
 impl fmt::Display for Value {
@@ -18,7 +18,7 @@ impl fmt::Display for Value {
 
 pub struct Table {
     deck: CardSet,
-    hand: CardSet
+    hand: CardSet,
 }
 
 impl fmt::Display for Table {
@@ -33,14 +33,17 @@ impl fmt::Display for Table {
 
 impl Table {
     pub fn new() -> Table {
-        Table { deck: CardSet::new_full(), hand: CardSet::new() }
+        Table {
+            deck: CardSet::new_full(),
+            hand: CardSet::new(),
+        }
     }
 
     pub fn shuffle_deck(&mut self) {
         self.deck.shuffle();
     }
 
-    pub fn init_hand(&mut self) -> Result<(), String>{
+    pub fn init_hand(&mut self) -> Result<(), String> {
         for _ in 0..HAND_NUMBER {
             self.pick_from_deck()?
         }
@@ -52,16 +55,14 @@ impl Table {
             Some(card) => {
                 self.hand.add_card(card);
                 Ok(())
-            },
-            None => {
-                Err("deck is out".to_string())
             }
+            None => Err("deck is out".to_string()),
         }
     }
 
     pub fn get_variant(self) -> Result<Value, String> {
         if self.hand.get_number() != HAND_NUMBER {
-            return Err("number of hand is not 5!".to_string())
+            return Err("number of hand is not 5!".to_string());
         }
         Ok(Value::HighCard)
     }

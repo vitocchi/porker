@@ -1,16 +1,19 @@
-mod suit;
 mod card;
+mod suit;
+use card::Card;
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 use std::fmt;
 use suit::Suit;
-use card::Card;
-use rand::thread_rng;
-use rand::seq::SliceRandom;
 
-pub struct CardSet (Vec<Card>);
+pub struct CardSet(Vec<Card>);
 
 impl fmt::Display for CardSet {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        for card in { let CardSet(vec) = self; vec }  {
+        for card in {
+            let CardSet(vec) = self;
+            vec
+        } {
             writeln!(f, "{}", card)?;
         }
         writeln!(f, "")
@@ -18,7 +21,7 @@ impl fmt::Display for CardSet {
 }
 
 impl CardSet {
-    pub fn new_full () -> CardSet {
+    pub fn new_full() -> CardSet {
         let mut vec = Vec::<Card>::new();
         for number in card::MIN_NUMBER..card::MAX_NUMBER + 1 {
             vec.push(Card::new(Suit::Spade, number).unwrap());

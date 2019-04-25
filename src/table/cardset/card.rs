@@ -5,6 +5,7 @@ use std::fmt;
 pub const MIN_NUMBER: u8 = 1;
 pub const MAX_NUMBER: u8 = 13;
 
+#[derive(PartialEq)]
 pub struct Card {
     suit: Suit, // マーク
     number: u8, //数字
@@ -27,17 +28,75 @@ impl Card {
         }
         return Ok(());
     }
-
 }
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    #[should_panic]
+    fn deny_larger_number() {
+        Card::check_number(14).unwrap();
+    }
 
-#[test]
-#[should_panic]
-fn deny_larger_number() {
-    Card::check_number(14).unwrap();
-}
+    #[test]
+    #[should_panic]
+    fn deny_smaller_number() {
+        Card::check_number(0).unwrap();
+    }
 
-#[test]
-#[should_panic]
-fn deny_smaller_number() {
-    Card::check_number(0).unwrap();
+    #[test]
+    fn accept_appropriate_number() {
+        assert_eq!(Card::check_number(1), Ok(()));
+        assert_eq!(Card::check_number(13), Ok(()))
+    }
+
+    #[test]
+    fn partial_eq() {
+        assert!(
+            Card {
+                suit: Suit::Spade,
+                number: 1
+            } == Card {
+                suit: Suit::Spade,
+                number: 1
+            }
+        );
+        assert!(
+            Card {
+                suit: Suit::Spade,
+                number: 1
+            } != Card {
+                suit: Suit::Spade,
+                number: 2
+            }
+        );
+        assert!(
+            Card {
+                suit: Suit::Spade,
+                number: 1
+            } != Card {
+                suit: Suit::Heart,
+                number: 1
+            }
+        );
+        assert!(
+            Card {
+                suit: Suit::Spade,
+                number: 1
+            } != Card {
+                suit: Suit::Heart,
+                number: 2
+            }
+        );
+    }
+
+    #[test]
+    fn create_card() {
+        let expected_card = Card {
+            suit: Suit::Spade,
+            number: 1,
+        };
+        let card = Card::new(Suit::Spade, 1).unwrap();
+        assert!(expected_card == card);
+    }
 }
