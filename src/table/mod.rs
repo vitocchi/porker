@@ -4,7 +4,7 @@ use card::CardSet;
 use std::fmt;
 
 pub struct Table {
-    pub deck: CardSet,
+    deck: CardSet,
 }
 
 impl fmt::Display for Table {
@@ -17,5 +17,9 @@ impl fmt::Display for Table {
 impl Table {
     pub fn new() -> Table {
         Table { deck: CardSet::new() }
+    }
+
+    pub fn shuffle_deck(&mut self) {
+        self.deck.shuffle();
     }
 }

@@ -4,6 +4,6 @@ use porkerlib::table;
 fn main() {
     let mut table = table::Table::new();
     println!("{}", table);
-    table.deck.shuffle();
+    table.shuffle_deck();
     println!("{}", table);
 }

@@ -1,11 +1,11 @@
-pub mod suit;
+mod suit;
 use std::fmt;
 use suit::Suit;
 use rand::{thread_rng, Rng};
 
 // トランプのカード
-pub const MIN_NUMBER: u8 = 1;
-pub const MAX_NUMBER: u8 = 13;
+const MIN_NUMBER: u8 = 1;
+const MAX_NUMBER: u8 = 13;
 
 pub struct CardSet (Vec<Card>);
 
